@@ -10,6 +10,7 @@ namespace BusinessLayer.Interface
         public UserDataModel Register(UserDataModel usermodel);
         public string Login(UserLoginModel userLogin);
         public string ForgetPassword(string Email);
+        public bool ResetLink(string Email, string password, string confirmPassword);
 
 
 

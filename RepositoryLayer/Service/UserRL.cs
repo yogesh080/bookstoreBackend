@@ -159,5 +159,52 @@ namespace RepositoryLayer.Service
 
         }
 
+        public bool ResetLink(string Email, string password, string confirmPassword)
+        {
+
+
+            SqlConnection sqlConnection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+            try
+            {
+                using (sqlConnection)
+                {
+                    if (password.Equals(confirmPassword))
+                    {
+                    sqlConnection.Open();
+                        SqlCommand cmd = new SqlCommand("spResetPassword", sqlConnection)
+                        {
+                            CommandType = CommandType.StoredProcedure
+                        };
+                    cmd.Parameters.AddWithValue("@Email", Email);
+                    cmd.Parameters.AddWithValue("@Password", confirmPassword);
+                    int result = cmd.ExecuteNonQuery();
+                        if (result != 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+
+        }
+
     }
 }

@@ -1,8 +1,10 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.UserModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 
 namespace bookstoreBackend.Controllers
 {
@@ -80,6 +82,37 @@ namespace bookstoreBackend.Controllers
                 throw;
 
             }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("ResetLink")]
+        public ActionResult ResetLink(string password, string confirmPassword)
+        {
+
+            try
+            {
+
+                var Email = User.FindFirst(ClaimTypes.Email).Value.ToString();
+
+                var result = userBL.ResetLink(Email, password, confirmPassword);
+
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Reset successfully" });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "REST FAILED" });
+                }
+
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }
