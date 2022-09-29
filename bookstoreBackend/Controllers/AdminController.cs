@@ -34,5 +34,26 @@ namespace bookstoreBackend.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost("Login")]
+        public IActionResult Login(AdminLoginModel adminLogin)
+        {
+            try
+            {
+                var result = this.adminBL.Login(adminLogin);
+                if (result != null)
+                {
+                    return this.Ok(new { Success = true, message = "Login Successful", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "Login failed " });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

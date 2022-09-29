@@ -8,6 +8,8 @@ namespace BusinessLayer.Interface
     public interface IAdminBL
     {
         public AdminModel Register(AdminModel adminmodel);
+        public string Login(AdminLoginModel adminLogin);
+
 
     }
 }

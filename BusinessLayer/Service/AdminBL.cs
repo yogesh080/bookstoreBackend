@@ -2,6 +2,7 @@
 using CommonLayer.AdminModel;
 using CommonLayer.UserModel;
 using RepositoryLayer.Interface;
+using RepositoryLayer.Service;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -25,6 +26,19 @@ namespace BusinessLayer.Service
             {
                 throw ex;
             }
+        }
+
+        public string Login(AdminLoginModel adminLogin)
+        {
+            try
+            {
+                return adminRL.Login(adminLogin);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }
