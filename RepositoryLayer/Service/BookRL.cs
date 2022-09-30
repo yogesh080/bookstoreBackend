@@ -149,5 +149,90 @@ namespace RepositoryLayer.Service
    
             }
         }
+
+        public bool DeleteBook(int BookId)
+        {
+            using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spDeleteBook", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    command.Parameters.AddWithValue("@BookId", BookId);
+
+                    var result = command.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public BookResponseModel RetrieveBookById(int BookId)
+        {
+            using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spGetBookByID", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@BookId", BookId);
+                    var result = command.ExecuteNonQuery();
+                    if (result == null)
+                    {
+                        return null;
+                    }
+                    SqlDataReader reader = command.ExecuteReader();
+                    BookResponseModel response = new BookResponseModel();
+                    while (reader.Read())
+                    {
+                        response.BookId = reader["BookId"] == DBNull.Value ? default : reader.GetInt32("BookId");
+                        response.BookName = reader["BookName"] == DBNull.Value ? default : reader.GetString("BookName");
+                        response.Author = reader["Author"] == DBNull.Value ? default : reader.GetString("Author");
+                        response.Description = reader["Description"] == DBNull.Value ? default : reader.GetString("Description");
+                        response.Quantity = reader["Quantity"] == DBNull.Value ? default : reader.GetInt32("Quantity");
+                        response.Price = (reader["Price"] == DBNull.Value ? default : reader.GetDecimal("Price"));
+                        response.DiscountedPrice = (reader["DiscountedPrice"] == DBNull.Value ? default : reader.GetDecimal("DiscountedPrice"));
+                        response.Rating = (reader["Rating"] == DBNull.Value ? default : reader.GetDouble("Rating"));
+                        response.RatingCount = reader["RatingCount"] == DBNull.Value ? default : reader.GetInt32("RatingCount");
+                        response.BookImage = reader["BookImage"] == DBNull.Value ? default : reader.GetString("BookImage");
+                    }
+                    return response;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+
     }
 }

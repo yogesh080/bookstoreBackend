@@ -84,5 +84,51 @@ namespace bookstoreBackend.Controllers
                 throw;
             }
         }
+
+        [Authorize]
+        [HttpDelete("DeleteBook")]
+        public ActionResult DeleteBook(int BookId)
+        {
+            try
+            {
+                var result = bookBL.DeleteBook(BookId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Books Deleted Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Books Could Not Be Deleted" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetBookById")]
+        public ActionResult RetriveByBookId(int BookId)
+        {
+            try
+            {
+                var result = bookBL.RetrieveBookById(BookId);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Book Details Fetched Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Book Details Could Not Be Fetched" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

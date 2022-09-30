@@ -10,6 +10,10 @@ namespace BusinessLayer.Interface
         public BookDataModel BookCreate(BookDataModel bookmodel);
         public List<BookResponseModel> GetAllBooks();
         public BookResponseModel UpdateBook(int BookId, BookResponseModel bookModel);
+        public bool DeleteBook(int BookId);
+        public BookResponseModel RetrieveBookById(int BookId);
+
+
 
 
 
