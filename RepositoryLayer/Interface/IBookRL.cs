@@ -8,5 +8,7 @@ namespace RepositoryLayer.Interface
     public interface IBookRL
     {
         public BookDataModel BookCreate(BookDataModel bookmodel);
+        public List<BookResponseModel> GetAllBooks();
+
     }
 }

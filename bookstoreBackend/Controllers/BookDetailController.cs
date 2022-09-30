@@ -36,5 +36,28 @@ namespace bookstoreBackend.Controllers
                 throw ex;
             }
         }
+
+        [Authorize]
+        [HttpGet("GetAllBooks")]
+        public ActionResult GetAllBooks()
+        {
+            try
+            {
+                var result = bookBL.GetAllBooks();
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Books Details Fetched Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Books Details Could Not Be Fetched" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
