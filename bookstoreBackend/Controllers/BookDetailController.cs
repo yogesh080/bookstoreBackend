@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Data;
 
 namespace bookstoreBackend.Controllers
 {
@@ -51,6 +52,30 @@ namespace bookstoreBackend.Controllers
                 else
                 {
                     return this.BadRequest(new { success = false, message = "Books Details Could Not Be Fetched" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+        [Authorize]
+        [HttpPost("UpdateBooks")]
+        public ActionResult UpdateBook(int BookId, BookResponseModel bookModel)
+        {
+            try
+            {
+                var result = bookBL.UpdateBook(BookId, bookModel);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Books Updated Successfully", data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { success = false, message = "Books Could Not Be Updated" });
                 }
             }
             catch (System.Exception)
