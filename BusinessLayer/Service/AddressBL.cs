@@ -42,6 +42,20 @@ namespace BusinessLayer.Service
             }
         }
 
+        public bool DeleteByAddressId(int AddressId, int UserId)
+        {
+            try
+            {
+                return addressRL.DeleteByAddressId(AddressId, UserId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
 
 
     }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
 using System.Text;
 
 namespace RepositoryLayer.Service
@@ -110,5 +111,47 @@ namespace RepositoryLayer.Service
                 connection.Close();
             }
         }
+
+        public bool DeleteByAddressId( int AddressId , int UserId)
+        {
+            using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spDeleteByAddressId", connection)
+                    {
+                        CommandType=CommandType.StoredProcedure
+                    };
+
+                    command.Parameters.AddWithValue("@UserId", UserId);
+                    command.Parameters.AddWithValue("@AddressId", AddressId);
+
+                    var result = command.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+
     }
 }

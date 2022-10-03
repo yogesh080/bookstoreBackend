@@ -81,6 +81,20 @@ namespace bookstoreBackend.Controllers
 
         }
 
+        [Authorize]
+        [HttpDelete]
+        public ActionResult DeleteByAddressId(int AddressId)
+        {
+            int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId" ).Value);
+            var result = addressBL.DeleteByAddressId(AddressId, UserID);
+            if (result == true)
+            {
+                return this.Ok(new { success = true, Message = $"AddressId : {AddressId} Deleted Sucessfully..." });
+            }
+            return this.BadRequest(new { success = false, message = "Delete fails" });
+
+        }
+
 
     }
 }
