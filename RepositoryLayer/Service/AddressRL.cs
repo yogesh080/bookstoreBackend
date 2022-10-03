@@ -152,6 +152,48 @@ namespace RepositoryLayer.Service
             }
         }
 
+        public bool UpdateAddressbyId(int UserId, AddressUpdateModel updateAddress)
+        {
+            using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+            try
+            {
+                {
+                    connection.Open();
+
+                    SqlCommand cmd = new SqlCommand("UpdateAddressbyIdSP", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    cmd.Parameters.AddWithValue("@AddressId", updateAddress.AddressId);
+                    cmd.Parameters.AddWithValue("@AddressType", updateAddress.AddressType);
+                    cmd.Parameters.AddWithValue("@FullAddress", updateAddress.FullAddress);
+                    cmd.Parameters.AddWithValue("@City", updateAddress.City);
+                    cmd.Parameters.AddWithValue("@State", updateAddress.State);
+
+                    var result = cmd.ExecuteNonQuery();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+        }
+
 
     }
 }

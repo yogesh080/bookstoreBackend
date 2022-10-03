@@ -9,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using RepositoryLayer.Service;
+using BusinessLayer.Service;
 
 namespace bookstoreBackend.Controllers
 {
@@ -94,6 +95,33 @@ namespace bookstoreBackend.Controllers
             return this.BadRequest(new { success = false, message = "Delete fails" });
 
         }
+
+        [Authorize]
+        [HttpPut("UpdateAddress")]
+        public ActionResult UpdateAddressbyId( AddressUpdateModel updateAddress)
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = addressBL.UpdateAddressbyId(UserID, updateAddress);
+                if(result == true)
+                {
+                    return this.Ok(new { success = true, Message = "Update successfull" });
+
+                }
+                return this.BadRequest(new { success = false, message = "Update fails" });
+
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+
 
 
     }

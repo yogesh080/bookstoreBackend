@@ -55,6 +55,21 @@ namespace BusinessLayer.Service
             }
         }
 
+        public bool UpdateAddressbyId(int UserId, AddressUpdateModel updateAddress)
+        {
+            try
+            {
+                return addressRL.UpdateAddressbyId(UserId, updateAddress);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
 
 
 

@@ -10,8 +10,7 @@ namespace RepositoryLayer.Interface
         public bool AddAddress(int UserId, AddressDataModel addAddress);
         public List<GetAddressModel> GetAllAddress(int UserId);
         public bool DeleteByAddressId(int AddressId, int UserId);
-
-
+        public bool UpdateAddressbyId(int UserId, AddressUpdateModel updateAddress);
 
     }
 }
