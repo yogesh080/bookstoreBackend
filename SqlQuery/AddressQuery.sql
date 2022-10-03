@@ -83,3 +83,15 @@ As
 Begin 
 update Address set AddressType=@AddressType,FullAddress=@FullAddress,City=@City,State=@State where UserId=@UserId
 end 
+
+---- sp get addressbyid---
+create procedure spGetAddressById(
+@AddressId int,
+@UserId int
+)
+As
+Begin 
+select 
+a.AddressId,a.AddressType,a.FullAddress,a.City,a.State,u.UserId,u.FullName,u.MobileNumber
+from Address a INNER JOIN UserInfo u ON a.UserId = u.UserId where AddressId=@AddressId
+end
