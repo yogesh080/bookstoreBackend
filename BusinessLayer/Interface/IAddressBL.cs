@@ -11,6 +11,8 @@ namespace BusinessLayer.Interface
         public List<GetAddressModel> GetAllAddress(int UserId);
         public bool DeleteByAddressId(int AddressId, int UserId);
         public bool UpdateAddressbyId(int UserId, AddressUpdateModel updateAddress);
+        public GetAddressModel GetAddressById(int AddressId, int UserId);
+
 
 
 

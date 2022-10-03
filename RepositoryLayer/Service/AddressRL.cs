@@ -10,7 +10,7 @@ using System.Text;
 
 namespace RepositoryLayer.Service
 {
-    public class AddressRL: IAddressRL
+    public class AddressRL : IAddressRL
     {
         private readonly IConfiguration configuration;
         private readonly IConfiguration _AppSetting;
@@ -27,11 +27,11 @@ namespace RepositoryLayer.Service
                 using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
 
                 SqlCommand command = new SqlCommand("spAddAddress", connection)
-                    {
-                        CommandType = CommandType.StoredProcedure
-                    };
                 {
-                    
+                    CommandType = CommandType.StoredProcedure
+                };
+                {
+
                     command.Parameters.AddWithValue("@UserId", UserId);
                     command.Parameters.AddWithValue("@AddressType", addAddress.AddressType);
                     command.Parameters.AddWithValue("@FullAddress", addAddress.FullAddress);
@@ -112,7 +112,7 @@ namespace RepositoryLayer.Service
             }
         }
 
-        public bool DeleteByAddressId( int AddressId , int UserId)
+        public bool DeleteByAddressId(int AddressId, int UserId)
         {
             using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
 
@@ -160,18 +160,18 @@ namespace RepositoryLayer.Service
                 {
                     connection.Open();
 
-                    SqlCommand cmd = new SqlCommand("spUpdateAddressbyId", connection)
+                    SqlCommand command = new SqlCommand("spUpdateAddressbyId", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
-                    cmd.Parameters.AddWithValue("@UserId", UserId);
-                    cmd.Parameters.AddWithValue("@AddressId", updateAddress.AddressId);
-                    cmd.Parameters.AddWithValue("@AddressType", updateAddress.AddressType);
-                    cmd.Parameters.AddWithValue("@FullAddress", updateAddress.FullAddress);
-                    cmd.Parameters.AddWithValue("@City", updateAddress.City);
-                    cmd.Parameters.AddWithValue("@State", updateAddress.State);
+                    command.Parameters.AddWithValue("@UserId", UserId);
+                    command.Parameters.AddWithValue("@AddressId", updateAddress.AddressId);
+                    command.Parameters.AddWithValue("@AddressType", updateAddress.AddressType);
+                    command.Parameters.AddWithValue("@FullAddress", updateAddress.FullAddress);
+                    command.Parameters.AddWithValue("@City", updateAddress.City);
+                    command.Parameters.AddWithValue("@State", updateAddress.State);
 
-                    var result = cmd.ExecuteNonQuery();
+                    var result = command.ExecuteNonQuery();
                     if (result > 0)
                     {
                         return true;
@@ -195,5 +195,52 @@ namespace RepositoryLayer.Service
         }
 
 
+        public GetAddressModel GetAddressById(int AddressId, int UserId)
+        {
+            using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("spGetAddressById", connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@UserId", UserId);
+                    command.Parameters.AddWithValue("@AddressId", AddressId);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    GetAddressModel addressdetails = new GetAddressModel();
+                    if (reader.Read())
+                    {
+                        addressdetails.AddressId = reader["AddressId"] == DBNull.Value ? default : reader.GetInt32("AddressId");
+                        addressdetails.UserId = UserId;
+                        addressdetails.FullName = reader["FullName"] == DBNull.Value ? default : reader.GetString("FullName");
+                        addressdetails.MobileNumber = reader["MobileNumber"] == DBNull.Value ? default : reader.GetInt64("MobileNumber");
+                        addressdetails.AddressType = reader["AddressType"] == DBNull.Value ? default : reader.GetInt32("AddressType");
+                        addressdetails.FullAddress = reader["FullAddress"] == DBNull.Value ? default : reader.GetString("FullAddress");
+                        addressdetails.City = reader["City"] == DBNull.Value ? default : reader.GetString("City");
+                        addressdetails.State = reader["State"] == DBNull.Value ? default : reader.GetString("State");
+                    }
+
+                    if (addressdetails.AddressId == 0)
+                    {
+                        return null;
+                    }
+
+                    return addressdetails;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+
+        }
     }
 }

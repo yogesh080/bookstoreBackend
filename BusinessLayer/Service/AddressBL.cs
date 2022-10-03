@@ -69,6 +69,20 @@ namespace BusinessLayer.Service
             }
         }
 
+        public GetAddressModel GetAddressById(int AddressId, int UserId)
+        {
+            try
+            {
+                return addressRL.GetAddressById(AddressId,UserId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
 
 
 

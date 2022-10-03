@@ -120,6 +120,25 @@ namespace bookstoreBackend.Controllers
             }
 
         }
+        [Authorize]
+        [HttpGet("GetAddressById")]
+        public IActionResult GetAddressById(int AddressId)
+        {
+            try
+            {
+                int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var result = this.addressBL.GetAddressById(AddressId, UserID);
+                if (result == null)
+                {
+                    return this.BadRequest(new { success = false, Message = $"No AddressesId : {AddressId} available For UserId : {UserID}!!" });
+                }
+                return this.Ok(new { success = true, Message = $"AddressesId : {UserID} details fetched Sucessfully...", data = result });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
 
