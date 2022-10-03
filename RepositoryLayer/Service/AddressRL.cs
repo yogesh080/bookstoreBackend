@@ -160,7 +160,7 @@ namespace RepositoryLayer.Service
                 {
                     connection.Open();
 
-                    SqlCommand cmd = new SqlCommand("UpdateAddressbyIdSP", connection)
+                    SqlCommand cmd = new SqlCommand("spUpdateAddressbyId", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
