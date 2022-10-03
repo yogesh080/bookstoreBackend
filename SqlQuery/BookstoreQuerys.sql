@@ -1,6 +1,8 @@
 use BookStoreDB
 
-Create Table BookInfo(
+DROP TABLE BookInfo;
+
+create Table BookInfo(
 BookId int Primary Key identity,
 BookName varchar(100) Unique Not Null,
 Author varchar(200) Unique Not Null,
@@ -11,14 +13,16 @@ DiscountedPrice money Not Null,
 Rating float,
 RatingCount int,
 BookImage varchar(255)
-);
+)
 
 
 
 
 select * from BookInfo
 
-Create Procedure spBookCreate
+
+-----sp for create book-----
+alter Procedure spCreateBook
 (
 @BookName varchar(100),
 @Author varchar(200),
@@ -45,7 +49,7 @@ Begin
 End
 
 ---- sp UpdateBook  -----
-Create Procedure spUpdateBook
+alter Procedure spUpdateBook
 (
 @BookId int,
 @BookName varchar(100),

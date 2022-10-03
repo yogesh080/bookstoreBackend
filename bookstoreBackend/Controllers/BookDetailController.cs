@@ -26,11 +26,11 @@ namespace bookstoreBackend.Controllers
             try
             {
                 var book = this.bookBL.BookCreate(bookmodel);
-                if (book != null)
+                if (book == null)
                 {
-                    return this.Ok(new { success = true, message = "Book added Successfully", data = book });
+                    return this.BadRequest(new { success = false, message = "Book added fails", data = book });
                 }
-                return this.BadRequest(new { success = false, message = "Book added fails", data = book });
+                 return this.Ok(new { success = true, message = "Book added Successfully", data = book });
             }
             catch (Exception ex)
             {

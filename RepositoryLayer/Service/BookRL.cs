@@ -26,7 +26,7 @@ namespace RepositoryLayer.Service
             try
             {
                 using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
-                SqlCommand cmd = new SqlCommand("spBookCreate", connection)
+                SqlCommand cmd = new SqlCommand("spCreateBook", connection)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
