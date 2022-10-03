@@ -47,6 +47,12 @@ namespace bookstoreBackend
             services.AddTransient<IWishListRL, WishListRL>();
             services.AddTransient<IWishListBL, WishListBL>();
 
+            services.AddTransient<IAddCartRL, AddCartRL>();
+            services.AddTransient<IAddCartBL, AddCartBL>();
+
+            services.AddTransient<IAddressRL, AddressRL>();
+            services.AddTransient<IAddressBL, AddressBL>();
+
 
 
 
