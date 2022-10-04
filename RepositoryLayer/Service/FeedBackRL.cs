@@ -66,24 +66,27 @@ namespace RepositoryLayer.Service
             {
                 using (connection)
                 {
-                    connection.Open();
+                    
                     SqlCommand cmd = new SqlCommand("spGetFeedback", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
                     cmd.Parameters.AddWithValue("@BookId", BookId);
 
+                    connection.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         GetFeedbackModel Feedbackdetails = new GetFeedbackModel
                         {
                             FeedbackId = reader["FeedbackId"] == DBNull.Value ? default : reader.GetInt32("FeedbackId"),
-                            UserId = reader["UserId"] == DBNull.Value ? default : reader.GetInt32("UserId"),
+                            UserId = (int)(reader["UserId"] == DBNull.Value ? default : reader.GetInt64("UserId")),
                             BookId = reader["BookId"] == DBNull.Value ? default : reader.GetInt32("BookId"),
                             TotalRating = reader["TotalRating"] == DBNull.Value ? default : reader.GetDecimal("TotalRating"),
                             Comment = reader["Comment"] == DBNull.Value ? default : reader.GetString("Comment"),
                             FullName = reader["FullName"] == DBNull.Value ? default : reader.GetString("FullName")
+
+
                         };
                         list.Add(Feedbackdetails);
                     }

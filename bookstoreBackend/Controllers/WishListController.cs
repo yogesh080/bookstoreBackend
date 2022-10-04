@@ -71,7 +71,7 @@ namespace bookstoreBackend.Controllers
             try
             {
                 int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
-                var result = wishListBL.GetWishListByUserId(UserID);
+                var result = wishListBL.GetWishListByUserId(UserID);        
                 if (result != null)
                 {
                     return Ok(new { success = true, message = "WishList Fetched Successfully", data = result });
