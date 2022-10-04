@@ -9,6 +9,8 @@ namespace RepositoryLayer.Interface
     {
         public bool AddFeedback(int UserId, FeedbackDataModel addModel);
         public List<GetFeedbackModel> GetAllFeedbacksByBookId(int BookId);
+        public bool DeleteFeedbackById(int FeedbackId);
+
 
 
     }

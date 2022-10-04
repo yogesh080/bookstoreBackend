@@ -68,3 +68,13 @@ SELECT
  ERROR_LINE() AS ErrorLine,  
  ERROR_MESSAGE() AS ErrorMessage;  
 END CATCH
+
+
+--- delete by book id----
+create procedure SPDeleteFeedbackById(
+@FeedbackId int
+)
+As
+Begin
+delete from Feedbackinfo where FeedbackId = @FeedbackId
+end 

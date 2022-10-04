@@ -61,5 +61,24 @@ namespace bookstoreBackend.Controllers
                 throw ex;
             }
         }
+
+        [Authorize]
+        [HttpDelete("DeleteFeedback/{FeedbackId}")]
+        public IActionResult DeleteFeedbackById(int FeedbackId)
+        {
+            try
+            {
+                var result = this.feedBackBL.DeleteFeedbackById(FeedbackId);
+                if (result == false)
+                {
+                    return this.BadRequest(new { success = false, Message = $"Something went wrong while removing FeedbackId : {FeedbackId} from the Feedback List!!" });
+                }
+                return this.Ok(new { success = true, Message = $"FeedbackId : {FeedbackId} removed from Feedback List Sucessfully..." });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

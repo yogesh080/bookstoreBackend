@@ -99,5 +99,37 @@ namespace RepositoryLayer.Service
                 connection.Close();
             }
         }
+
+        public bool DeleteFeedbackById(int FeedbackId)
+        {
+            using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+
+            
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("SPDeleteFeedbackById", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@FeedbackId ", FeedbackId);
+
+                    var result = cmd.ExecuteNonQuery();
+                    if (result == 0)
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
