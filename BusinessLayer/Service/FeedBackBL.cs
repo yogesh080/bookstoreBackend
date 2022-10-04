@@ -29,5 +29,19 @@ namespace BusinessLayer.Service
             }
         }
 
+        public List<GetFeedbackModel> GetAllFeedbacksByBookId(int BookId)
+        {
+            try
+            {
+                return feedBackRL.GetAllFeedbacksByBookId(BookId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
     }
 }

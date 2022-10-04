@@ -56,5 +56,48 @@ namespace RepositoryLayer.Service
                 throw ex;
             }
         }
+
+        public List<GetFeedbackModel> GetAllFeedbacksByBookId(int BookId)
+        {
+            using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+
+            List<GetFeedbackModel> list = new List<GetFeedbackModel>();
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("spGetFeedback", connection)
+                    {
+                        CommandType = CommandType.StoredProcedure
+                    };
+                    cmd.Parameters.AddWithValue("@BookId", BookId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        GetFeedbackModel Feedbackdetails = new GetFeedbackModel
+                        {
+                            FeedbackId = reader["FeedbackId"] == DBNull.Value ? default : reader.GetInt32("FeedbackId"),
+                            UserId = reader["UserId"] == DBNull.Value ? default : reader.GetInt32("UserId"),
+                            BookId = reader["BookId"] == DBNull.Value ? default : reader.GetInt32("BookId"),
+                            TotalRating = reader["TotalRating"] == DBNull.Value ? default : reader.GetDecimal("TotalRating"),
+                            Comment = reader["Comment"] == DBNull.Value ? default : reader.GetString("Comment"),
+                            FullName = reader["FullName"] == DBNull.Value ? default : reader.GetString("FullName")
+                        };
+                        list.Add(Feedbackdetails);
+                    }
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
