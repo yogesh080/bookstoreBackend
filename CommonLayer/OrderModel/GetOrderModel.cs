@@ -14,7 +14,7 @@ namespace CommonLayer.OrderModel
         public int Quantity { get; set; }
         public DateTime? OrderDate { get; set; }
         public string BookName { get; set; }
-        public string AuthorName { get; set; }
+        public string Author { get; set; }
         public string BookImage { get; set; }
     }
 }

@@ -8,6 +8,8 @@ namespace RepositoryLayer.Interface
     public interface IOrderRL
     {
         public bool AddOrder(OrderDataModel postModel);
+        public List<GetOrderModel> GetAllOrder(int userId);
+
 
     }
 }

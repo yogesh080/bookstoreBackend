@@ -63,6 +63,54 @@ namespace RepositoryLayer.Service
 
         }
 
+        public List<GetOrderModel> GetAllOrder(int userId)
+        {
+            SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+
+            List<GetOrderModel> order = new List<GetOrderModel>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("spGetOrders", connection);
+                cmd.CommandType= CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", userId);
+
+                GetOrderModel orderModel = new GetOrderModel();
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    orderModel.OrdersId = Convert.ToInt32(reader["OrderId"]);
+                    orderModel.UserId = Convert.ToInt32(reader["UserId"]);
+                    orderModel.BookId = Convert.ToInt32(reader["BookId"]);
+                    orderModel.AddressId = Convert.ToInt32(reader["AddressId"]);
+                    orderModel.TotalPrice = Convert.ToInt32(reader["TotalPrice"]);
+                    orderModel.Quantity = Convert.ToInt32(reader["BookQuantity"]);
+                    orderModel.OrderDate = Convert.ToDateTime(reader["OrderDate"]);
+                    orderModel.BookName = reader["BookName"].ToString();
+                    orderModel.Author = reader["Author"].ToString();
+                    orderModel.BookImage = reader["BookImage"].ToString();
+
+                    order.Add(orderModel);
+                }
+                connection.Close();
+
+                if (order.Count > 0)
+                {
+                    return order;
+                }
+                else
+                {
+                    return null;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
 

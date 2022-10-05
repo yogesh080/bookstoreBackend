@@ -28,6 +28,21 @@ namespace BusinessLayer.Service
             }
         }
 
+        public List<GetOrderModel> GetAllOrder(int userId)
+        {
+            try
+            {
+                return orderRL.GetAllOrder(userId);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
 
 
 
