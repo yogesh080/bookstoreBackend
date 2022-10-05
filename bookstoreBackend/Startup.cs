@@ -56,6 +56,9 @@ namespace bookstoreBackend
             services.AddTransient<IFeedBackRL, FeedBackRL>();
             services.AddTransient<IFeedBackBL, FeedBackBL>();
 
+            services.AddTransient<IOrderRL, OrderRL>();
+            services.AddTransient<IOrderBL, OrderBL>();
+
 
 
 
