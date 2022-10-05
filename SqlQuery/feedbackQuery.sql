@@ -51,14 +51,14 @@ end;
 
 ----- get sp feed back----
 
-create procedure spGetFeedbackks(
+alter procedure spGetFeedbackks(
 @BookId int
 )  
 As  
 Begin try  
-select Feedbacks.Comment,Feedbacks.FeedbackId,Feedbacks.TotalRating,Feedbacks.BookId,
-Users.FullName
-from Feedbacks inner join UserInfo on Feedbacks.UserId=Users.UserId
+select Feedbacks.Comment,Feedbacks.FeedbackId,Feedbacks.Rating,Feedbacks.BookId,
+UserInfo.FullName
+from Feedbacks inner join UserInfo on Feedbacks.UserId=UserInfo.UserId	
 where Feedbacks.BookId=@BookId
 
 
@@ -71,3 +71,13 @@ SELECT
  ERROR_LINE() AS ErrorLine,  
  ERROR_MESSAGE() AS ErrorMessage;  
 END CATCH
+
+--- delete feed back----
+
+create procedure SPDeleteFeedbackById(
+@FeedbackId int
+)
+As
+Begin
+delete from Feedbackinfo where FeedbackId = @FeedbackId
+end 
