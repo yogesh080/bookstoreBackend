@@ -2,7 +2,7 @@ use BookStoreDB
 
 create table Feedbacks(
 FeedbackId int primary key identity,
-Rating float not null,
+TotalRating float not null,
 Comment varchar(max) not null,
 BookId int not null foreign key (BookId) references BookInfo(BookId),
 UserId int not null foreign key (UserId) references UserInfo(UserId)
@@ -10,11 +10,13 @@ UserId int not null foreign key (UserId) references UserInfo(UserId)
 
 --- create sp -----
 
+DROP TABLE Feedbacks;
+
 
 Select * From Feedbacks
 -----sp feedback query----
 
-create  Proc spAddFeedback
+alter  Proc spAddFeedback
 (
 	@Comment varchar(max),
 	@TotalRating decimal,
@@ -32,8 +34,8 @@ begin
 		Begin  select * from Feedbacks
 			Begin try
 				Begin transaction
-					Insert into Feedbacks(Comment, Rating, BookId, UserId) values(@Comment, @TotalRating, @BookId, @UserId);		
-					set @AverageRating = (Select AVG(Rating) from Feedbacks where BookId = @BookId);
+					Insert into Feedbacks(Comment, TotalRating, BookId, UserId) values(@Comment, @TotalRating, @BookId, @UserId);		
+					set @AverageRating = (Select AVG(TotalRating) from Feedbacks where BookId = @BookId);
 					Update BookInfo set Rating=@AverageRating where  BookId = @BookId;
 				Commit Transaction
 			End Try
@@ -56,7 +58,7 @@ alter procedure spGetFeedbackks(
 )  
 As  
 Begin try  
-select Feedbacks.Comment,Feedbacks.FeedbackId,Feedbacks.Rating,Feedbacks.BookId,
+select Feedbacks.Comment,Feedbacks.FeedbackId,Feedbacks.TotalRating,Feedbacks.BookId,
 UserInfo.FullName
 from Feedbacks inner join UserInfo on Feedbacks.UserId=UserInfo.UserId	
 where Feedbacks.BookId=@BookId
@@ -74,7 +76,7 @@ END CATCH
 
 --- delete feed back----
 
-create procedure SPDeleteFeedbackById(
+alter procedure SPDeleteFeedbackById(
 @FeedbackId int
 )
 As

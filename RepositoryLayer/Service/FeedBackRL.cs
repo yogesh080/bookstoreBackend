@@ -80,7 +80,7 @@ namespace RepositoryLayer.Service
                     model.FullName = Convert.ToString(reader["FullName"]);
                     model.Comment = Convert.ToString(reader["Comment"]);
                     model.BookId = Convert.ToInt32(reader["BookId"]);
-                    model.TotalRating = Convert.ToInt32(reader["Rating"]);
+                    model.TotalRating = Convert.ToInt32(reader["TotalRating"]);
                     model.FeedbackId = Convert.ToInt32(reader["FeedbackId"]);
                     }
                     return list;
