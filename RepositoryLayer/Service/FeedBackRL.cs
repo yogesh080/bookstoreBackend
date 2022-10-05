@@ -29,7 +29,7 @@ namespace RepositoryLayer.Service
                 using (connection)
                 {
                     
-                    SqlCommand cmd = new SqlCommand("spAddFeedbackpro", connection)
+                    SqlCommand cmd = new SqlCommand("spGetFeedbackks", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
@@ -59,13 +59,12 @@ namespace RepositoryLayer.Service
 
         public List<GetFeedbackModel> GetAllFeedbacksByBookId(int BookId)
         {
-            using SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
+            SqlConnection connection = new SqlConnection(configuration["ConnectionString:BookStoreDB"]);
 
             List<GetFeedbackModel> list = new List<GetFeedbackModel>();
             try
             {
-                using (connection)
-                {
+                
                     
                     SqlCommand cmd = new SqlCommand("spGetFeedback", connection)
                     {
@@ -77,21 +76,15 @@ namespace RepositoryLayer.Service
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        GetFeedbackModel Feedbackdetails = new GetFeedbackModel
-                        {
-                            FeedbackId = reader["FeedbackId"] == DBNull.Value ? default : reader.GetInt32("FeedbackId"),
-                            UserId = (int)(reader["UserId"] == DBNull.Value ? default : reader.GetInt64("UserId")),
-                            BookId = reader["BookId"] == DBNull.Value ? default : reader.GetInt32("BookId"),
-                            TotalRating = reader["TotalRating"] == DBNull.Value ? default : reader.GetDecimal("TotalRating"),
-                            Comment = reader["Comment"] == DBNull.Value ? default : reader.GetString("Comment"),
-                            FullName = reader["FullName"] == DBNull.Value ? default : reader.GetString("FullName")
-
-
-                        };
-                        list.Add(Feedbackdetails);
+                    GetFeedbackModel model = new GetFeedbackModel();
+                    model.FullName = Convert.ToString(reader["FullName"]);
+                    model.Comment = Convert.ToString(reader["Comment"]);
+                    model.BookId = Convert.ToInt32(reader["BookId"]);
+                    model.TotalRating = Convert.ToInt32(reader["TotalRating"]);
+                    model.FeedbackId = Convert.ToInt32(reader["FeedbackId"]);
                     }
                     return list;
-                }
+                
             }
             catch (Exception ex)
             {
