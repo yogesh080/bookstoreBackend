@@ -8,8 +8,48 @@ BookId int not null foreign key (BookId) references BookInfo(BookId),
 UserId int not null foreign key (UserId) references UserInfo(UserId)
 )
 
+--- create sp -----
 
+
+Select * From Feedbacks
 -----sp feedback query----
+
+create  Proc spAddFeedback
+(
+	@Comment varchar(max),
+	@TotalRating decimal,
+	@BookId int,
+	@UserId int
+)
+as
+Declare @AverageRating int;
+begin
+	if (exists(SELECT * FROM Feedbacks where BookId = @BookId and UserId=@UserId))
+		select 1;
+	Else
+	Begin
+		if (exists(SELECT * FROM BookInfo WHERE BookId = @BookId))
+		Begin  select * from Feedbacks
+			Begin try
+				Begin transaction
+					Insert into Feedbacks(Comment, Rating, BookId, UserId) values(@Comment, @TotalRating, @BookId, @UserId);		
+					set @AverageRating = (Select AVG(Rating) from Feedbacks where BookId = @BookId);
+					Update BookInfo set Rating=@AverageRating where  BookId = @BookId;
+				Commit Transaction
+			End Try
+			Begin catch
+				Rollback transaction
+			End catch
+		End
+		Else
+		Begin
+			Select 2; 
+		End
+	End
+end;
+
+
+----- get sp feed back----
 
 create procedure spGetFeedbackks(
 @BookId int

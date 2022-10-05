@@ -29,7 +29,7 @@ namespace RepositoryLayer.Service
                 using (connection)
                 {
                     
-                    SqlCommand cmd = new SqlCommand("spGetFeedbackks", connection)
+                    SqlCommand cmd = new SqlCommand("spAddFeedback", connection)
                     {
                         CommandType = CommandType.StoredProcedure
                     };
