@@ -41,11 +41,11 @@ namespace CommonLayer.UserModel
 
             string htmlbody;
 
-            //htmlbody = $"Fundoo Notes Reset Password: <a href=http://localhost:4200/User/ResetPassword/{token}> Click Here</a>";
+            htmlbody = $"Fundoo Notes Reset Password: <a href=http://localhost:4200/User/ResetPassword/{token}> Click Here</a>";
 
-            htmlbody = "<body><p>Dear User,<br>" +
-                        "Copy below token to reset your password.<br></body>" +
-                        token;
+            //htmlbody = "<body><p>Dear User,<br>" +
+            //            "Copy below token to reset your password.<br></body>" +
+            //            token;
 
             mail.Body = htmlbody;
 
