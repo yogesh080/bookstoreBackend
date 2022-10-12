@@ -93,7 +93,7 @@ namespace bookstoreBackend.Controllers
             try
             {
                 var result = bookBL.DeleteBook(BookId);
-                if (result != null)
+                if (result != true)
                 {
                     return this.Ok(new { success = true, message = "Books Deleted Successfully", data = result });
                 }

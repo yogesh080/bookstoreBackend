@@ -69,7 +69,7 @@ namespace bookstoreBackend.Controllers
         }
 
         [Authorize]
-        [HttpPost("DeleteFromCart")]
+        [HttpDelete("DeleteFromCart")]
         public ActionResult DeleteFromCart(int CartId)
         {
             try

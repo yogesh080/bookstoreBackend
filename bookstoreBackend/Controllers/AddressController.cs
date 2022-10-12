@@ -57,12 +57,12 @@ namespace bookstoreBackend.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult GetAllAddress(int UserId)
+        public ActionResult GetAllAddress()
         {
             try
             {
                 int UserID = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
-                var result = addressBL.GetAllAddress(UserId);
+                var result = addressBL.GetAllAddress(UserID);
 
                 if (result != null)
                 {
